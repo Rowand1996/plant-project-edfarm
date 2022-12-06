@@ -4,16 +4,16 @@ const bcrypt = require("bcryptjs");
 
 const createUser = async (req, res, next) => {
   
-  const { email, password, firstName } = req.body;
+  const { firstName, email, password} = req.body;
 
   
   let passwordHash = bcrypt.hashSync(password, 12);
 
   
   let userData = {
-    passwordHash,
-    email,
     firstName,
+    email,
+    passwordHash,
   };
 
   
