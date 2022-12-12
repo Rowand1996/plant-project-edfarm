@@ -36,4 +36,29 @@ const createUser = async (req, res, next) => {
   });
 };
 
-module.exports = { createUser };
+const updateUser = async (req, res, next) => {
+  let userID = req.params.id
+
+  let user
+  try {
+    user = await User.findByPk(userID)
+  } catch (error) {
+    res.status(404).json({
+      message: "unable to find user with that id",
+      error,
+    })
+    return
+  }
+
+  if (user === null) {
+    res.status(404).json({
+      message: "unable to find user with that id",
+      error,
+    })
+    return
+  }
+
+  res.json(user)
+}
+
+module.exports = { createUser, updateUser };

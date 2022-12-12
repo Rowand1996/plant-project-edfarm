@@ -29,10 +29,22 @@ const User = db.define(
       type: DataTypes.STRING,
       allowNull: false,
     },
+    role: {
+      type: DataTypes.STRING,
+      allowNull: false,
+      defaultValue: "user",
+      validate: {
+        isIn: [
+          "user",
+          "admin",
+        ],
+      },
+    },
+
   },
   {
     timestamps: true,
   }
-);
+)
 
 module.exports = { User };

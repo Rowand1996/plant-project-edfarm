@@ -1,6 +1,7 @@
 const { User } = require("../models/user");
 const bcrypt = require("bcryptjs");
 const jwt = require("jsonwebtoken");
+const { JWT_ISSUER, JWT_SECRET } = require("../utilities/constants");
 
 
 const signin = async (req, res, next) => {
@@ -24,6 +25,13 @@ const signin = async (req, res, next) => {
     return;
   }
 
+  if (user === null) {
+    res.status(404).json({
+      message: "unable to find user with matching email and password",
+    })
+    return
+  }
+
   let match = bcrypt.compareSync(password, user.passwordHash);
   if (!match) {
  
@@ -40,10 +48,10 @@ const signin = async (req, res, next) => {
       name: user.firstName,
       admin: false,
     },
-    "secret", 
+    JWT_SECRET, 
     {
       expiresIn: "1h",
-      issuer: "org.edfarm.gaming-api",
+      issuer: JWT_ISSUER,
     }
   );
 

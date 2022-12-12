@@ -5,14 +5,18 @@ const {
     createPlant,
     updatePlant,
     deletePlant,
-} = require("../controllers/plants")
+} = require("../controllers/plants");
+const { verifyToken, verifyRole } = require("../middleware/auth");
 
 const router = express.Router();
 
 // "/" handlers
-router.route("/").get(getPlants).post(createPlant);
+router.route("/").get(verifyToken, getPlants).post(verifyToken, createPlant);
 
 // "/:id" handlers
-router.route("/:id").get(getPlant).put(updatePlant).delete(deletePlant);
+router.route("/:id")
+.get(getPlant)
+.put(verifyToken, verifyRole("admin"), updatePlant)
+.delete(verifyToken, verifyRole("admin"), deletePlant);
 
 module.exports = router;
