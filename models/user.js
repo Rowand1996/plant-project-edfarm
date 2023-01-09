@@ -7,6 +7,7 @@ const User = db.define(
     id: {
       type: DataTypes.UUID,
       defaultValue: DataTypes.UUIDV4,
+      isUUID: 4,
       primaryKey: true,
     },
     firstName: {
@@ -23,6 +24,7 @@ const User = db.define(
     },
     email: {
       type: DataTypes.STRING,
+      isEmail: true,
       allowNull: false,
     },
     passwordHash: {
